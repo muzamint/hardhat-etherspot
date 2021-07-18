@@ -60,4 +60,9 @@ module.exports = {};
 
 And then run `npx hardhat signature` to try it.
 
+```
+$ npx hardhat signature
+signature 0xa33bbc64d944b371dfbcdcc55ee208dca29100d34e081cd848a528a7a2e1116b050a9151a06210a84c443559a72e83c78f635a914a5e260a7db1a78bfb62ba081c
+```
+
 Read the documentation on the [Hardhat Runtime Environment](https://hardhat.org/documentation/#hardhat-runtime-environment-hre) to learn how to access the HRE in different ways to use Etherspot from anywhere the HRE is accessible.
