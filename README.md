@@ -9,7 +9,9 @@ This plugin brings to Hardhat the Etherspot module and an initialized instance o
 
 ```bash
 npm install --save-dev @muzamint/hardhat-etherspot etherspot
+
 // or
+
 yarn add -D @muzamint/hardhat-etherspot etherspot
 ```
 
@@ -44,7 +46,7 @@ Install it and access Etherspot through the Hardhat Runtime Environment anywhere
 require("@muzamint/hardhat-etherspot");
 
 // task action function receives the Hardhat Runtime Environment as second argument
-task("signature "Sign Message", 
+task("signature", "Sign Message", 
 async (_, { sdk }) => {
 const signature = await sdk.signMessage({
     message: 'test message',
