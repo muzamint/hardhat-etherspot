@@ -1,60 +1,54 @@
-# Hardhat TypeScript plugin boilerplate
+# hardhat-etherspot
+This plugin integrates [Etherspot](https://docs.etherspot.dev/) `1.14.0` into Hardhat.
 
-This is a sample Hardhat plugin written in TypeScript. Creating a Hardhat plugin
-can be as easy as extracting a part of your config into a different file and
-publishing it to npm.
+## What
 
-This sample project contains an example on how to do that, but also comes with
-many more features:
+This plugin brings to Hardhat the Etherspot module and an initialized instance of Etherspot.
 
-- A mocha test suite ready to use
-- TravisCI already setup
-- A package.json with scripts and publishing info
-- Examples on how to do different things
-
-## Installation
-
-To start working on your project, just run
+# Installation
 
 ```bash
-npm install
+npm install --save-dev @mingderwang/hardhat-web3 web3
 ```
 
-## Plugin development
+And add the following statement to your `hardhat.config.js`:
 
-Make sure to read our [Plugin Development Guide](https://hardhat.org/guides/create-plugin.html)
-to learn how to build a plugin, and our
-[best practices to create high-quality plugins](https://hardhat.org/advanced/building-plugins.html).
+```js
+require("@mingderwang/hardhat-web3");
+```
 
-## Testing
+Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
 
-Running `npm run test` will run every test located in the `test/` folder. They
-use [mocha](https://mochajs.org) and [chai](https://www.chaijs.com/),
-but you can customize them.
+```js
+import "@mingderwang/hardhat-web3";
+```
 
-We recommend creating unit tests for your own modules, and integration tests for
-the interaction of the plugin with Hardhat and its dependencies.
+## Tasks
 
-## Linting and autoformat
+This plugin creates no additional tasks.
 
-All of Hardhat projects use [prettier](https://prettier.io/) and
-[tslint](https://palantir.github.io/tslint/).
+## Environment extensions
 
-You can check if your code style is correct by running `npm run lint`, and fix
-it with `npm run lint:fix`.
+This plugin adds the following elements to the `HardhatRuntimeEnvironment`:
 
-## Building the project
+- `Etherspot`: The etherspot module.
+- `sdk`: An instantiated etherspot-sdk object connected to the selected network.
 
-Just run `npm run build` ️👷
+## Usage
 
-## README file
+Install it and access Etherspot.js through the Hardhat Runtime Environment anywhere you need it (tasks, scripts, tests, etc). For example, in your `hardhat.config.js`:
 
-This README describes this boilerplate project, but won't be very useful to your
-plugin users.
+```js
+require("@mingderwang/hardhat-etherspot");
 
-Take a look at `README-TEMPLATE.md` for an example of what a Hardhat plugin's
-README should look like.
+// task action function receives the Hardhat Runtime Environment as second argument
+task("accounts", "Prints accounts", async (_, { web3 }) => {
+  console.log(await web3.eth.getAccounts());
+});
 
-## Migrating from Buidler?
+module.exports = {};
+```
 
-Take a look at [the migration guide](MIGRATION.md)!
+And then run `npx hardhat accounts` to try it.
+
+Read the documentation on the [Hardhat Runtime Environment](https://hardhat.org/documentation/#hardhat-runtime-environment-hre) to learn how to access the HRE in different ways to use Etherspot.js from anywhere the HRE is accessible.

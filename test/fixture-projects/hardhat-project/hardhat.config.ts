@@ -1,14 +1,5 @@
-// We load the plugin here.
-import { HardhatUserConfig } from "hardhat/types";
+require("../../../src/index");
 
-import "../../../src/index";
-
-const config: HardhatUserConfig = {
-  solidity: "0.7.3",
-  defaultNetwork: "hardhat",
-  paths: {
-    newPath: "asd",
-  },
+module.exports = {
+  solidity: "0.5.15",
 };
-
-export default config;
