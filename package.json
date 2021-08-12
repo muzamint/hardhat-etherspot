@@ -43,7 +43,7 @@
     "ethers": "^5.4.1",
     "etherspot": "^1.14.0",
     "hardhat": "^2.0.0",
-    "mocha": "^7.1.2",
+    "mocha": "^9.0.3",
     "prettier": "2.0.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
