@@ -1,8 +1,9 @@
-import { Sdk } from "etherspot"
+import { Sdk } from 'etherspot'
 
-declare module "hardhat/types/runtime" {
+declare module 'hardhat/types/runtime' {
   export interface HardhatRuntimeEnvironment {
-    Sdk: typeof Sdk;
-    sdk: Sdk;
+    Sdk: typeof Sdk
+    sdk: Sdk
+    testnetSdk: Sdk
   }
 }

@@ -41,7 +41,7 @@
     "@types/node": "^8.10.38",
     "chai": "^4.2.0",
     "ethers": "^5.4.1",
-    "etherspot": "^1.14.0",
+    "etherspot": "latest",
     "hardhat": "^2.0.0",
     "mocha": "^9.0.3",
     "prettier": "2.0.5",
