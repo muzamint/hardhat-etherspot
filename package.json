@@ -1,6 +1,6 @@
 {
   "name": "@muzamint/hardhat-etherspot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Hardhat TypeScript plugin for Etherspot",
   "homepage": "github:mingderwang/hardhat-etherspot",
   "author": "Ming-der Wang<mingderwang@gmail.com",
@@ -55,5 +55,8 @@
   },
   "peerDependencies": {
     "hardhat": "^2.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1"
   }
 }

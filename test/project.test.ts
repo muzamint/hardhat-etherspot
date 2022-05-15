@@ -1,11 +1,19 @@
 // tslint:disable-next-line no-implicit-dependencies
 import { assert, expect } from 'chai'
-import { randomPrivateKey, NetworkNames, EnvNames } from '../src/etherspot'
+import {
+  WalletProviderLike,
+  randomPrivateKey,
+  NetworkNames,
+  EnvNames,
+  P2PPaymentDeposit,
+} from '../src/etherspot'
 import { useEnvironment } from './helpers'
+require('dotenv').config()
 
 describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥', function () {
   describe('🔥 Hardhat Runtime Environment extension (4)', function () {
     useEnvironment('hardhat-project')
+    this.timeout(0)
 
     it('Should add the Sdk field', function () {
       assert.instanceOf(this.hre.sdk, this.hre.Sdk)
@@ -27,6 +35,55 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
       const network = testnetSdk.state.network.name
       console.log('🦊 hre.testnetSdk network is ->', network, '🦊')
       assert.equal(network, NetworkNames.Etherspot)
+    })
+    it('Should can create new sdk from hre.Sdk', async function () {
+      let currentNetwork = NetworkNames.Ropsten
+      const privateKey = process.env.PRIVATE_KEY as string
+      console.log('privateKey', privateKey)
+      const sdk = new this.hre.Sdk(privateKey, {
+        env: EnvNames.TestNets, // Use EnvNames.Mainnet, If you are accessing Mainnets
+        networkName: currentNetwork,
+        projectKey: process.env.TESTNETS_PROJECT_KEY,
+      })
+      console.log('project key', process.env.TESTNETS_PROJECT_KEY)
+      const projects = await sdk.services.projectService.currentProject
+      console.log('getProjects', projects)
+      assert(ture, 'always ture')
+      // console.log('create session', await sdk.createSession());
+      await sdk.computeContractAccount({ sync: true })
+      const output2 = await sdk.syncAccount()
+      console.log('create contract address', output2)
+      /*
+      console.log('account topUpAccount hash ->', await sdk.topUpAccount())
+      console.log(
+        'account topUpPaymentDepositAccount hash ->',
+        await sdk.topUpPaymentDepositAccount(),
+      )
+      */
+      const output = await sdk.getAccountBalances()
+      console.log('account balances', output.items[0].balance.toString())
+
+      const receiver = '0xf3e06eeC1A90A7aEB10F768B924351A0F0158A1A' // Replace with address of your choice // for Ropsten
+      const amtInWei = '500000000000000' //Send 0.0005 ETH
+      const transaction = await sdk.batchExecuteAccountTransaction({
+        to: receiver, //wallet address
+        value: amtInWei, //in wei
+      })
+
+      console.log('Estimating transaction')
+      await sdk
+        .estimateGatewayBatch()
+        .then(async (result) => {
+          console.log('Estimation ', result.estimation)
+          const hash = await sdk.submitGatewayBatch()
+          console.log('Transaction submitted ', hash)
+        })
+        .catch((error) => {
+          console.log(
+            'Transaction estimation failed with error ',
+            error.message,
+          )
+        })
     })
   })
 })
