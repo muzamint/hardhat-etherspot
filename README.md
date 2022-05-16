@@ -69,6 +69,13 @@ signature 0xa33bbc64d944b371dfbcdcc55ee208dca29100d34e081cd848a528a7a2e1116b050a
 Read the documentation on the [Hardhat Runtime Environment](https://hardhat.org/documentation/#hardhat-runtime-environment-hre) to learn how to access the HRE in different ways to use Etherspot from anywhere the HRE is accessible.
 
 # For developers
+
+## clone the source code from the github repo
+```
+git clone https://github.com/muzamint/hardhat-etherspot.git
+cd hardhat-etherspot
+```
+
 ## add your project key to .env
 > Copy .env.example file to your own .env file locally. and update your project key to your .env file.
 ```
@@ -88,7 +95,7 @@ and, then run
 ```
 yarn test
 ```
-## current errors
+## current test errors
 ```
 ➜  hardhat-etherspot git:(main) yarn test
 yarn run v1.22.15
