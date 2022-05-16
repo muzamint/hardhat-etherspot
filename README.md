@@ -69,6 +69,12 @@ signature 0xa33bbc64d944b371dfbcdcc55ee208dca29100d34e081cd848a528a7a2e1116b050a
 Read the documentation on the [Hardhat Runtime Environment](https://hardhat.org/documentation/#hardhat-runtime-environment-hre) to learn how to access the HRE in different ways to use Etherspot from anywhere the HRE is accessible.
 
 # For developers
+## add your project key to .env
+cat .env.example
+```
+TESTNETS_PROJECT_KEY="0xf0dasdfasdfasdfasdfasdfadsf"
+```
+## run test
 run
 ```
 yarn
@@ -76,4 +82,6 @@ yarn
 and, then run
 ```
 yarn test
+```
+## current errors
 ```
