@@ -51,7 +51,7 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
       console.log('sdk account topUpAccount hash ->', await sdk.topUpAccount()) // only for Etherspot
 
       console.log(
-        'account topUpPaymentDepositAccount hash ->',
+        'sdk account topUpPaymentDepositAccount hash ->',
         await sdk.topUpPaymentDepositAccount(),
       ) // only for Etherspot
       console.log(
@@ -87,13 +87,21 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
           liquidity: utils.parseEther('0.2'),
         }),
       )
-      console.log(
-        'payment hub recipient deposit (updated)',
-        await sdk.updatePaymentHubDeposit({
+      console.log('payment hub recipient deposit (updated)')
+      console.log('starging sdk.updatePaymentHubDeposit()...')
+      await sdk
+        .updatePaymentHubDeposit({
           hub: user,
           totalAmount: utils.parseEther('0.05'),
-        }),
-      )
+        })
+        .then((r) => {
+          console.log('Result -> ', r)
+          assert(true)
+        })
+        .catch((e) => {
+          console.log('Error -> ', e)
+          assert(false)
+        })
     })
   })
 })
