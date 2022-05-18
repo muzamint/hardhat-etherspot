@@ -53,7 +53,7 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
       //    const output2 = await sdk.syncAccount()
       //    console.log('create contract address', output2)
 
-      const onNetwork = await currentNetwork.valueOf()
+      const onNetwork = currentNetwork.valueOf()
 
       if (onNetwork === 'etherspot') {
         console.log(
