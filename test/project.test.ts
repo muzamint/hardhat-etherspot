@@ -17,9 +17,11 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
     this.timeout(0)
 
     it('Should works for sdk.updatePaymentHubDeposit()', async function () {
-      const currentNetwork = NetworkNames.Etherspot
+      const currentNetwork = NetworkNames.Etherspot // or NetworkNames.Ropsten
       const hubPrivateKey = process.env.HUB_PRIVATE_KEY as WalletProviderLike // randomPrivateKey()
       const privateKey = process.env.SENDER_PRIVATE_KEY as WalletProviderLike // randomPrivateKey()
+
+      console.log('run test on network:', currentNetwork)
       console.log('hubPrivateKey', hubPrivateKey)
       console.log('privateKey', privateKey)
 
@@ -50,22 +52,31 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
       await sdk.computeContractAccount({ sync: true })
       //    const output2 = await sdk.syncAccount()
       //    console.log('create contract address', output2)
-      console.log('sdk account topUpAccount hash ->', await sdk.topUpAccount()) // only for Etherspot
 
-      console.log(
-        'sdk account topUpPaymentDepositAccount hash ->',
-        await sdk.topUpPaymentDepositAccount(),
-      ) // only for Etherspot
-      console.log(
-        'hubSdk account topUpAccount hash ->',
-        await hubSdk.topUpAccount(),
-      ) // only for Etherspot
+      const onNetwork = await currentNetwork.valueOf()
 
-      console.log(
-        'hubSdk account topUpPaymentDepositAccount hash ->',
-        await hubSdk.topUpPaymentDepositAccount(),
-      ) // only for Etherspot
+      if (onNetwork === 'etherspot') {
+        console.log(
+          'sdk account topUpAccount hash ->',
+          await sdk.topUpAccount(),
+        ) // only for Etherspot
 
+        console.log(
+          'sdk account topUpPaymentDepositAccount hash ->',
+          await sdk.topUpPaymentDepositAccount(),
+        ) // only for Etherspot
+        console.log(
+          'hubSdk account topUpAccount hash ->',
+          await hubSdk.topUpAccount(),
+        ) // only for Etherspot
+
+        console.log(
+          'hubSdk account topUpPaymentDepositAccount hash ->',
+          await hubSdk.topUpPaymentDepositAccount(),
+        ) // only for Etherspot
+      } else {
+        console.log('topUp only in Etherspot testnet!!, skip on ', onNetwork)
+      }
       /*
       await sdk
         .getAccountBalances()
