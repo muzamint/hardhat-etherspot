@@ -1,11 +1,12 @@
 # hardhat-etherspot
+
 This plugin integrates [Etherspot](https://docs.etherspot.dev/) `1.14.0` into Hardhat.
 
 ## What
 
 This plugin brings to Hardhat the Etherspot module and an initialized instance of Etherspot.
 
-# Installation
+## Installation
 
 ```bash
 npm install --save-dev @muzamint/hardhat-etherspot etherspot
@@ -68,35 +69,46 @@ signature 0xa33bbc64d944b371dfbcdcc55ee208dca29100d34e081cd848a528a7a2e1116b050a
 
 Read the documentation on the [Hardhat Runtime Environment](https://hardhat.org/documentation/#hardhat-runtime-environment-hre) to learn how to access the HRE in different ways to use Etherspot from anywhere the HRE is accessible.
 
-# For developers
+## For developers
 
 ## clone the source code from the github repo
+
 ```
 git clone https://github.com/muzamint/hardhat-etherspot.git
 cd hardhat-etherspot
 ```
 
 ## add your project key to .env
-> Copy .env.example file to your own .env file locally. and update your project key to your .env file.
-```
-```
 
+> Copy .env.example file to your own .env file locally. and update your project key to your .env file.
+
+```sh
 cat .env.example
 ```
+
+```sh
 TESTNETS_PROJECT_KEY="0xf0dasdfasdfasdfasdfasdfadsf"
 ```
+
 > if you don't have a project key, just skip this step, to run test directly.
+
 ## run test
+
 run
-```
+
+```sh
 yarn
 ```
+
 and, then run
-```
+
+```sh
 yarn test
 ```
+
 ## current test errors
-```
+
+```sh
 ➜  hardhat-etherspot git:(main) yarn test
 yarn run v1.22.15
 $ mocha --exit --recursive 'test/**/*.test.ts'

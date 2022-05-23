@@ -17,7 +17,7 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
     this.timeout(0)
 
     it('Should works for sdk.updatePaymentHubDeposit()', async function () {
-      const currentNetwork = NetworkNames.Mumbai // or NetworkNames.Etherspot <- getAccoutBalances is not working
+      const currentNetwork = NetworkNames.Ropsten // or NetworkNames.Etherspot <- getAccoutBalances is not working
       const hubPrivateKey = process.env.HUB_PRIVATE_KEY as WalletProviderLike // randomPrivateKey()
       const privateKey = process.env.SENDER_PRIVATE_KEY as WalletProviderLike // randomPrivateKey()
 
@@ -36,8 +36,9 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
         networkName: currentNetwork,
         projectKey: process.env.TESTNETS_PROJECT_KEY,
       })
-      // console.log('create session', await sdk.createSession());
-      await sdk.computeContractAccount({ sync: false })
+      console.log('create session', await sdk.createSession())
+      console.log('create session', await hubSdk.createSession())
+      //await sdk.computeContractAccount({ sync: true })
       //    const output2 = await sdk.syncAccount()
       //    console.log('create contract address', output2)
 
@@ -49,91 +50,92 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
       const { state: userState } = sdk
       const { accountAddress: hub } = hubState
       const { accountAddress: user } = userState
+      const onNetwork = currentNetwork.valueOf()
+      if (onNetwork !== 'etherspot') {
+        console.log(
+          '🌈 hub wallet address:',
+          hubState.walletAddress,
+          'Balance:',
+          utils.formatUnits(
+            (
+              await sdk.getAccountBalances({
+                account: hubState.walletAddress,
+              })
+            ).items[0].balance,
+            'ether',
+          ),
+        )
+        console.log(
+          '🌈 user wallet address:',
+          userState.walletAddress,
+          'Balance:',
+          utils.formatUnits(
+            (
+              await sdk.getAccountBalances({
+                account: userState.walletAddress,
+              })
+            ).items[0].balance,
+            'ether',
+          ),
+        )
+        console.log(
+          '🌈 hub account address:',
+          hubState.accountAddress,
+          'Balance:',
+          utils.formatUnits(
+            (
+              await sdk.getAccountBalances({
+                account: hubState.accountAddress,
+              })
+            ).items[0].balance,
+            'ether',
+          ),
+        )
+        console.log(
+          '🌈 user account address:',
+          userState.accountAddress,
+          'Balance:',
+          utils.formatUnits(
+            (
+              await sdk.getAccountBalances({
+                account: userState.accountAddress,
+              })
+            ).items[0].balance,
+            'ether',
+          ),
+        )
+        console.log(
+          '🌈 hub p2pPaymentDepositAddress:',
+          hubState.p2pPaymentDepositAddress,
+          'Balance:',
+          utils.formatUnits(
+            (
+              await sdk.getAccountBalances({
+                account: hubState.p2pPaymentDepositAddress,
+              })
+            ).items[0].balance,
+            'ether',
+          ),
+        )
+        console.log(
+          '🌈 user p2pPaymentDepositAddress:',
+          userState.p2pPaymentDepositAddress,
+          'Balance:',
+          utils.formatUnits(
+            (
+              await sdk.getAccountBalances({
+                account: userState.p2pPaymentDepositAddress,
+              })
+            ).items[0].balance,
+            'ether',
+          ),
+        )
+      }
 
-      console.log(
-        '🌈 hub wallet address:',
-        hubState.walletAddress,
-        'Balance:',
-        utils.formatUnits(
-          (
-            await sdk.getAccountBalances({
-              account: hubState.walletAddress,
-            })
-          ).items[0].balance,
-          'ether',
-        ),
-      )
-      console.log(
-        '🌈 user wallet address:',
-        userState.walletAddress,
-        'Balance:',
-        utils.formatUnits(
-          (
-            await sdk.getAccountBalances({
-              account: userState.walletAddress,
-            })
-          ).items[0].balance,
-          'ether',
-        ),
-      )
-      console.log(
-        '🌈 hub account address:',
-        hubState.accountAddress,
-        'Balance:',
-        utils.formatUnits(
-          (
-            await sdk.getAccountBalances({
-              account: hubState.accountAddress,
-            })
-          ).items[0].balance,
-          'ether',
-        ),
-      )
-      console.log(
-        '🌈 user account address:',
-        userState.accountAddress,
-        'Balance:',
-        utils.formatUnits(
-          (
-            await sdk.getAccountBalances({
-              account: userState.accountAddress,
-            })
-          ).items[0].balance,
-          'ether',
-        ),
-      )
-      console.log(
-        '🌈 hub p2pPaymentDepositAddress:',
-        hubState.p2pPaymentDepositAddress,
-        'Balance:',
-        utils.formatUnits(
-          (
-            await sdk.getAccountBalances({
-              account: hubState.p2pPaymentDepositAddress,
-            })
-          ).items[0].balance,
-          'ether',
-        ),
-      )
-      console.log(
-        '🌈 user p2pPaymentDepositAddress:',
-        userState.p2pPaymentDepositAddress,
-        'Balance:',
-        utils.formatUnits(
-          (
-            await sdk.getAccountBalances({
-              account: userState.p2pPaymentDepositAddress,
-            })
-          ).items[0].balance,
-          'ether',
-        ),
-      )
       console.log('🐤 project key', process.env.TESTNETS_PROJECT_KEY)
       const projects = await sdk.services.projectService.currentProject
       console.log('getProjects', projects)
       assert(ture, 'always ture')
-
-      const onNetwork = currentNetwork.valueOf()
 
       if (onNetwork === 'etherspot') {
         console.log(
