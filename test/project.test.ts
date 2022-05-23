@@ -204,7 +204,7 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
         })
         .catch((e) => {
           console.log('❌🔥🙉 Error -> ', e)
-          // assert(false)
+          assert(false)
         })
     })
   })
