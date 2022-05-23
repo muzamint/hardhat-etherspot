@@ -17,13 +17,13 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
     this.timeout(0)
 
     it('Should works for sdk.updatePaymentHubDeposit()', async function () {
-      const currentNetwork = NetworkNames.Etherspot // or NetworkNames.Ropsten
+      const currentNetwork = NetworkNames.Mumbai // or NetworkNames.Etherspot <- getAccoutBalances is not working
       const hubPrivateKey = process.env.HUB_PRIVATE_KEY as WalletProviderLike // randomPrivateKey()
       const privateKey = process.env.SENDER_PRIVATE_KEY as WalletProviderLike // randomPrivateKey()
 
       console.log('run test on network:', currentNetwork)
-      console.log('hubPrivateKey', hubPrivateKey)
-      console.log('privateKey', privateKey)
+      console.log('hub PrivateKey ✅', hubPrivateKey)
+      console.log('user PrivateKey ✅', privateKey)
 
       const hubSdk = new this.hre.Sdk(hubPrivateKey, {
         env: EnvNames.TestNets,
@@ -36,22 +36,102 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
         networkName: currentNetwork,
         projectKey: process.env.TESTNETS_PROJECT_KEY,
       })
+      // console.log('create session', await sdk.createSession());
+      await sdk.computeContractAccount({ sync: false })
+      //    const output2 = await sdk.syncAccount()
+      //    console.log('create contract address', output2)
+
+      await hubSdk.computeContractAccount({ sync: false })
+      //    const output2 = await sdk.syncAccount()
+      //    console.log('create contract address', output2)
 
       const { state: hubState } = hubSdk
       const { state: userState } = sdk
       const { accountAddress: hub } = hubState
       const { accountAddress: user } = userState
 
-      console.log('🌈 hub wallet address:', hubState.accountAddress)
-      console.log('🌈 use wallet address:', userState.accountAddress)
+      console.log(
+        '🌈 hub wallet address:',
+        hubState.walletAddress,
+        'Balance:',
+        utils.formatUnits(
+          (
+            await sdk.getAccountBalances({
+              account: hubState.walletAddress,
+            })
+          ).items[0].balance,
+          'ether',
+        ),
+      )
+      console.log(
+        '🌈 user wallet address:',
+        userState.walletAddress,
+        'Balance:',
+        utils.formatUnits(
+          (
+            await sdk.getAccountBalances({
+              account: userState.walletAddress,
+            })
+          ).items[0].balance,
+          'ether',
+        ),
+      )
+      console.log(
+        '🌈 hub account address:',
+        hubState.accountAddress,
+        'Balance:',
+        utils.formatUnits(
+          (
+            await sdk.getAccountBalances({
+              account: hubState.accountAddress,
+            })
+          ).items[0].balance,
+          'ether',
+        ),
+      )
+      console.log(
+        '🌈 user account address:',
+        userState.accountAddress,
+        'Balance:',
+        utils.formatUnits(
+          (
+            await sdk.getAccountBalances({
+              account: userState.accountAddress,
+            })
+          ).items[0].balance,
+          'ether',
+        ),
+      )
+      console.log(
+        '🌈 hub p2pPaymentDepositAddress:',
+        hubState.p2pPaymentDepositAddress,
+        'Balance:',
+        utils.formatUnits(
+          (
+            await sdk.getAccountBalances({
+              account: hubState.p2pPaymentDepositAddress,
+            })
+          ).items[0].balance,
+          'ether',
+        ),
+      )
+      console.log(
+        '🌈 user p2pPaymentDepositAddress:',
+        userState.p2pPaymentDepositAddress,
+        'Balance:',
+        utils.formatUnits(
+          (
+            await sdk.getAccountBalances({
+              account: userState.p2pPaymentDepositAddress,
+            })
+          ).items[0].balance,
+          'ether',
+        ),
+      )
       console.log('🐤 project key', process.env.TESTNETS_PROJECT_KEY)
       const projects = await sdk.services.projectService.currentProject
       console.log('getProjects', projects)
       assert(ture, 'always ture')
-      // console.log('create session', await sdk.createSession());
-      await sdk.computeContractAccount({ sync: true })
-      //    const output2 = await sdk.syncAccount()
-      //    console.log('create contract address', output2)
 
       const onNetwork = currentNetwork.valueOf()
 
@@ -88,10 +168,10 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
       const output3 = await hubSdk.getAccountBalances() // fails on Etherspot, but OK in Ropsten
       console.log('account balances3', output3.items[0].balance.toString())
 */
-      const newValue = Math.random()
+      const newValue = 0.06 * Math.random()
       const updateNewValue = newValue.toString()
-      const updateDeposit = (newValue / 2).toString()
-      console.log('✅ update payment hub a NewValue', updateNewValue)
+      const updateDeposit = (newValue / 5).toString()
+      console.log('✅ update payment hub a NewValue 🎈🎈🎈🎈🎈', updateNewValue)
       console.log(
         'payment hub to hubSdk',
         await hubSdk.updatePaymentHub({
@@ -106,23 +186,23 @@ describe('💥 Integration tests for the @muzamint/hardhat-etherspot plugin 💥
         }),
       )
       console.log(
-        '✅ update payment hub deposit half of the NewValue',
+        '✅ update payment hub deposit half of the NewValue 🎈🎈🎈🎈🎈',
         updateDeposit,
       )
-      console.log('payment hub recipient deposit (updated)')
       console.log('starging sdk.updatePaymentHubDeposit()...💥')
       await sdk
         .updatePaymentHubDeposit({
-          hub: user,
+          hub,
           totalAmount: utils.parseEther(updateDeposit),
         })
         .then((r) => {
           console.log('Result -> ', r)
+          console.log('payment hub recipient deposit (updated)')
           assert(true)
         })
         .catch((e) => {
-          console.log('Error -> ', e)
-          assert(false)
+          console.log('❌🔥🙉 Error -> ', e)
+          // assert(false)
         })
     })
   })

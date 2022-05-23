@@ -18,7 +18,7 @@ extendEnvironment((hre) => {
       new Sdk(randomPrivateKey(), {
         //  networkName: 'ropsten' as NetworkNames,
         env: EnvNames.TestNets,
-        networkName: 'etherspot' as typeof NetworkNames,
+        networkName: 'ropsten' as typeof NetworkNames,
       }),
   )
 })
