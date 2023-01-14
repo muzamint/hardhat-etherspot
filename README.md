@@ -1,6 +1,6 @@
 # hardhat-etherspot
 
-This plugin integrates [Etherspot](https://docs.etherspot.dev/) `1.14.0` into Hardhat.
+This plugin integrates [Etherspot](https://docs.etherspot.dev/) `1.42.6` into Hardhat.
 
 ## What
 
